@@ -61,9 +61,29 @@ public class ProveedoresService implements IProveedores {
         return response;
     }
 
+    
+
+    @Override
+    public String deleteProveedor(Integer idProveedor) {
+        Optional<Proveedores> optionalProveedor = proveedoresRepository.findById(idProveedor);
+        if (optionalProveedor.isPresent()){
+            Proveedores proveedor = optionalProveedor.get();
+            proveedor.setActive(false);
+            proveedoresRepository.save(proveedor);
+            return "Proveedor eliminado correctamente";
+        } else {
+            return "Proveedor no encontrado";
+        }
+    }
+    
+
+    public Double sumar(Double num1, Double num2){
+        return num1 + num2;
+    }
+
     @Override
     public ProveedoresResponse updateProveedor(Integer idProveedor, ProveedoresRequest proveedoresRequest) {
-        Optional<Proveedores> optionalProveedor = proveedoresRepository.findById(idProveedor);
+                Optional<Proveedores> optionalProveedor = proveedoresRepository.findById(idProveedor);
         if (optionalProveedor.isPresent()) {
             Proveedores proveedor = optionalProveedor.get();
             proveedor.setNombreEmpresa(proveedoresRequest.getNombreEmpresa());
@@ -79,18 +99,4 @@ public class ProveedoresService implements IProveedores {
             return null;
         }
     }
-
-    @Override
-    public String deleteProveedor(Integer idProveedor) {
-        Optional<Proveedores> optionalProveedor = proveedoresRepository.findById(idProveedor);
-        if (optionalProveedor.isPresent()){
-            Proveedores proveedor = optionalProveedor.get();
-            proveedor.setActive(false);
-            proveedoresRepository.save(proveedor);
-            return "Proveedor eliminado correctamente";
-        } else {
-            return "Proveedor no encontrado";
-        }
-    }
-    
 }
